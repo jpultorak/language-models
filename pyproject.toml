@@ -1,0 +1,10 @@
+[project]
+name = "language-models"
+version = "0.1.0"
+description = "25/26 UWr language models class"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "torch>=2.9.0",
+    "transformers>=4.57.1",
+]
