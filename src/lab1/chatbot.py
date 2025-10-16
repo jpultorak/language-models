@@ -10,8 +10,6 @@ def build_prompt(query, history):
     lines += [f"Pytanie: {query}", "Odpowiedź:"]
     return "\n".join(lines)
 
-import re
-
 def score(reply: str, user_query: str) -> float:
     s = 0
 
