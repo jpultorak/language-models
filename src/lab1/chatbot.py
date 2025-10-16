@@ -3,7 +3,7 @@ from transformers import pipeline, set_seed
 
 
 def build_prompt(query, history):
-    header = "SCENA: krótka rozmowa. Odpowiadaj zwięźle i na temat.\n\n"
+    header = "SCENA: krótka rozmowa. Odpowiadaj zwięźle i nie powtarzaj się.\n\n"
     lines = [header]
     for u, b in history[-1:]:
         lines += [f"Pytanie: {u}", f"Odpowiedź: {b}"]
@@ -24,7 +24,7 @@ def score(reply: str, user_query: str) -> float:
     runs = re.findall(r"\b(\w+)(?:\s+\1\b)+", reply.lower())
     s += 9 * len(runs)
 
-    p_cnt = words.count("pytanie:")
+    p_cnt = words.count("pytanie:") + words.count("odpoweidź:")
     s += 100 * min(p_cnt, 1)
     return s
 
@@ -63,7 +63,7 @@ def main():
         )
 
         candidates = [process_output(o["generated_text"]) for o in outs]
-        # print("=======DEBUG:\n ", candidates," \nEND DEBUG=======\n")
+        print("=======DEBUG:\n ", candidates," \nEND DEBUG=======\n")
 
         reply = min(candidates, key=lambda r: score(r, query))
         print(f"Odpowiedź: {reply}", "\n" + "="*50 + "\n")
