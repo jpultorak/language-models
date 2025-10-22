@@ -1,5 +1,5 @@
 import re
-from transformers import pipeline, set_seed
+from transformers import pipeline
 
 
 def build_prompt(query, history):
@@ -10,13 +10,14 @@ def build_prompt(query, history):
     lines += [f"Pytanie: {query}", "Odpowiedź:"]
     return "\n".join(lines)
 
+
 def score(reply: str, user_query: str) -> float:
     s = 0
 
     words = reply.split()
 
     consecutive_words = list(zip(words, words[1:]))
-    repeats = len(consecutive_words ) - len(set(consecutive_words))
+    repeats = len(consecutive_words) - len(set(consecutive_words))
     s += 3 * repeats
 
     runs = re.findall(r"\b(\w+)(?:\s+\1\b)+", reply.lower())
@@ -28,17 +29,14 @@ def score(reply: str, user_query: str) -> float:
 
 
 def process_output(text: str) -> str:
-    last_sentence_idx = max(text.rfind('.'), text.rfind('?'), text.rfind('!'))
+    last_sentence_idx = max(text.rfind("."), text.rfind("?"), text.rfind("!"))
     if last_sentence_idx != -1:
-        return text[:last_sentence_idx+1]
+        return text[: last_sentence_idx + 1]
     return text
 
+
 def main():
-    generator = pipeline(
-        'text-generation',
-        model='flax-community/papuGaPT2',
-        device=0
-    )
+    generator = pipeline("text-generation", model="flax-community/papuGaPT2", device=0)
 
     print("Model loaded")
     history = []
@@ -57,17 +55,19 @@ def main():
             num_return_sequences=10,
             return_full_text=False,
             do_sample=True,
-            top_p=0.9, temperature=0.8,
+            top_p=0.9,
+            temperature=0.8,
         )
 
         candidates = [process_output(o["generated_text"]) for o in outs]
-        print("=======DEBUG:\n ", candidates," \nEND DEBUG=======\n")
+        print("=======DEBUG:\n ", candidates, " \nEND DEBUG=======\n")
 
         reply = min(candidates, key=lambda r: score(r, query))
-        print(f"Odpowiedź: {reply}", "\n" + "="*50 + "\n")
+        print(f"Odpowiedź: {reply}", "\n" + "=" * 50 + "\n")
 
         history.append((query, reply))
         # print("=======DEBUG HISTORY:\n ", history," \nEND DEBUG HISTORY=======\n")
+
 
 if __name__ == "__main__":
     main()

@@ -1,24 +1,19 @@
-from transformers import pipeline, set_seed
+from transformers import pipeline
 
-generator = pipeline('text-generation', model='flax-community/papuGaPT2', device=0)
+generator = pipeline("text-generation", model="flax-community/papuGaPT2", device=0)
 
-print ('Model loaded')
-last_prompt = 'Dzisiaj na obiad zjemy kartofelki z'
+print("Model loaded")
 
 while True:
-    prompt = input().strip()
-    if not prompt:
-        prompt = last_prompt
-    g = generator(prompt,
-                  pad_token_id=generator.tokenizer.eos_token_id,
-                  max_new_tokens=100
-                  )[0]['generated_text']
+    prompt=None 
+    while not prompt:
+        prompt = "Definicja słowa. " +input().strip()
 
-    print (g)
-    print (50 * '=')
-    print ()
+    g = generator(
+        prompt, pad_token_id=generator.tokenizer.eos_token_id, max_new_tokens=4, temperature=0.1
+    )[0]["generated_text"]
+
+    print(g)
+    print(50 * "=")
+    print()
     last_prompt = prompt
-
-
-
-

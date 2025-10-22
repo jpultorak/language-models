@@ -2,11 +2,12 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from torch.nn import functional as F
 
-model_name = 'flax-community/papuGaPT2'
-device = 'cpu'
+model_name = "flax-community/papuGaPT2"
+device = "cpu"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+
 
 def log_probs_from_logits(logits, labels):
     logp = F.log_softmax(logits, dim=-1)
@@ -15,22 +16,23 @@ def log_probs_from_logits(logits, labels):
 
 
 def sentence_prob(sentence_txt):
-    input_ids = tokenizer(sentence_txt, return_tensors='pt')['input_ids'].to(device)
+    input_ids = tokenizer(sentence_txt, return_tensors="pt")["input_ids"].to(device)
     with torch.no_grad():
         output = model(input_ids=input_ids)
         log_probs = log_probs_from_logits(output.logits[:, :-1, :], input_ids[:, 1:])
         seq_log_probs = torch.sum(log_probs)
     return seq_log_probs.cpu().numpy()
 
+
 sentences = [
-    'To jest zwykłe polskie zdanie.',
-    'To zwykłe jest polska zdanie',
-    'This is a normal English sentence.',
-    'iweryuiiu hrfw3eieur fr'
+    "To jest zwykłe polskie zdanie.",
+    "To zwykłe jest polska zdanie",
+    "This is a normal English sentence.",
+    "iweryuiiu hrfw3eieur fr",
 ]
 
 
 if __name__ == "__main__":
-    print ()
+    print()
     for s in sentences:
-        print (s, sentence_prob(s))
+        print(s, sentence_prob(s))
