@@ -2,7 +2,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from torch.nn import functional as F
 
-model_name = "flax-community/papuGaPT2"
+model_name = "eryk-mazus/polka-1.1b"
 device = "cpu"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -33,6 +33,5 @@ sentences = [
 
 
 if __name__ == "__main__":
-    print()
     for s in sentences:
         print(s, sentence_prob(s))
