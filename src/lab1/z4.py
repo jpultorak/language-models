@@ -4,8 +4,11 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class Question:
-    content: str
+    question: str
     answer: str
+
+    def __str__(self):
+        return f"Q: {self.question}A: {self.answer}"
 
 
 
@@ -17,7 +20,7 @@ def read_questions(path: Path) -> list[Question]:
 
     with q_path.open() as q_file, a_path.open() as a_file:
         for q, a in zip(q_file, a_file):
-            questions.append(Question(content=q, answer=a))
+            questions.append(Question(question=q, answer=a))
 
     return questions
 
@@ -26,4 +29,5 @@ if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parents[2]
     z4_path = repo_root / "datasets" / "p1" / "z4"
     qs = read_questions(z4_path)
-    print(qs[:5])
+    for q in qs:
+        print(q)
