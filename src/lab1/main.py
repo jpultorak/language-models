@@ -6,13 +6,13 @@ generator = pipeline("text-generation", model=model_name, device=0)
 print("Model loaded")
 
 while True:
-    prompt=None 
-    while not prompt:
-        prompt = input().strip()
+    inp=None
+    while not inp:
+        inp = input().strip()
 
-    prompt += " to definicja słowa:"
+    prompt = "Twoim zadaniem jest przetłumaczyć zdania z Angielskiego na Polski:\nI like dogs. - Lubię psy.\nI am John. - Nazywam się Janek.\n" + inp
     g = generator(
-        prompt, pad_token_id=generator.tokenizer.eos_token_id, max_new_tokens=4, temperature=0.1
+        prompt, pad_token_id=generator.tokenizer.eos_token_id, max_new_tokens=15
     )[0]["generated_text"]
 
     print(g)
