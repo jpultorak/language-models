@@ -1192,7 +1192,7 @@ kontur ### linia, zarys kształtu
 kontur ### {{geogr}} mapa z zaznaczonymi tylko liniami lądów, głównych rzek, gór itp.
 kontur ### {{szt}} linia obwodząca dany motyw na malowidle lub rysunku, odgraniczająca płaszczyzny od siebie
 kontur ### kontur, zarys
-korpus ### {{anat}} tułów człowieka lub zwierzęcia
+korpus ### {{anat}} tułów człowieka lub zwniewielka, zagłębiona przestrzeń na powierzchni ziemi.ierzęcia
 korpus ### {{techn}} główna część maszyny lub urządzenia;
 korpus ### {{wojsk}} jednostka wojskowa utworzona tymczasowo w celach administracyjnych, szkoleniowych lub taktycznych;
 korpus ### {{archit}} główna część budowli;
