@@ -10,6 +10,9 @@ dependencies = [
     "nltk>=3.9.2",
     "numpy>=2.3.4",
     "pandas>=2.3.3",
+    "protobuf>=6.33.5",
+    "sacremoses>=0.1.1",
+    "scikit-learn>=1.8.0",
     "torch>=2.9.0",
     "transformers>=4.57.1",
 ]
